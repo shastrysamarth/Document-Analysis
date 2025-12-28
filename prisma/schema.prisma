@@ -1,0 +1,33 @@
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "binary"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model Document {
+  id         String   @id @default(uuid())
+  filename   String
+  text       String
+  schema     Json
+  extracted  Json     @default("{}")
+  confidence Json     @default("{}")
+  status     String
+  createdAt  DateTime @default(now())
+
+  embeddings DocumentEmbedding[] @relation("DocumentToEmbeddings")
+}
+
+
+model DocumentEmbedding {
+  id         String   @id @default(uuid())
+  documentId String
+  vector     Unsupported("vector(3072)")
+
+  document   Document @relation("DocumentToEmbeddings", fields: [documentId], references: [id], onDelete: Cascade)
+  @@index([documentId])
+}
