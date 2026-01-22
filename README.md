@@ -61,6 +61,16 @@ This platform ingests PDFs and text files, extracts content, performs schema dis
 
 ---
 
+# Upload + PDF Viewer
+<img width="1505" height="766" alt="Screenshot 2025-12-27 at 7 09 30 PM" src="https://github.com/user-attachments/assets/18b0d720-d35e-4eec-ae20-cfd3b449edd4" />
+
+# PDF Viewer
+<img width="1508" height="761" alt="Screenshot 2025-12-27 at 7 10 09 PM" src="https://github.com/user-attachments/assets/4953fb73-3cd5-4d53-a566-9cae674eff26" />
+
+# Embeddings Review
+<img width="1505" height="760" alt="Screenshot 2025-12-27 at 7 11 17 PM" src="https://github.com/user-attachments/assets/fcd3f09d-f5f0-4625-880a-e4380c58f9db" />
+
+
 ## 📂 Project Structure
 
 ```bash
