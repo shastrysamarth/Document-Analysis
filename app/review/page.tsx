@@ -5,6 +5,7 @@ import { FileText, Clock, Database, CheckCircle2, AlertCircle, Upload } from "lu
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Chat } from "@/components/chat"
 
 type PageProps = {
   searchParams: Promise<{ doc?: string }>
@@ -195,71 +196,78 @@ export default async function ReviewPage({ searchParams }: PageProps) {
           </div>
         </div>
 
-        <div className="grid gap-6">
-          {/* Metadata Card */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Database className="h-5 w-5" />
-                Document Metadata
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-1">
-                  <p className="text-sm font-medium text-muted-foreground">Document ID</p>
-                  <p className="font-mono text-sm">{record.id}</p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-sm font-medium text-muted-foreground">Embeddings</p>
-                  <p className="text-sm">
-                    {record.embeddings.length} embedding{record.embeddings.length !== 1 ? "s" : ""} generated
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Schema Card */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Schema</CardTitle>
-              <CardDescription>Document structure and metadata schema</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <pre className="overflow-auto rounded-lg bg-muted p-4 text-xs leading-relaxed">
-                {JSON.stringify(record.schema, null, 2)}
-              </pre>
-            </CardContent>
-          </Card>
-
-          {/* Extracted Data Card (if present) */}
-          {"extracted" in record && (
+        <div className="grid gap-6 lg:grid-cols-2">
+          <div className="space-y-6">
+            {/* Metadata Card */}
             <Card>
               <CardHeader>
-                <CardTitle>Extracted Data</CardTitle>
-                <CardDescription>Information extracted from the document</CardDescription>
+                <CardTitle className="flex items-center gap-2">
+                  <Database className="h-5 w-5" />
+                  Document Metadata
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium text-muted-foreground">Document ID</p>
+                    <p className="font-mono text-sm">{record.id}</p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium text-muted-foreground">Embeddings</p>
+                    <p className="text-sm">
+                      {record.embeddings.length} embedding{record.embeddings.length !== 1 ? "s" : ""} generated
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Schema Card */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Schema</CardTitle>
+                <CardDescription>Document structure and metadata schema</CardDescription>
               </CardHeader>
               <CardContent>
                 <pre className="overflow-auto rounded-lg bg-muted p-4 text-xs leading-relaxed">
-                  {JSON.stringify((record as any).extracted, null, 2)}
+                  {JSON.stringify(record.schema, null, 2)}
                 </pre>
               </CardContent>
             </Card>
-          )}
 
-          {/* Document Text Card */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Document Text</CardTitle>
-              <CardDescription>Full text content from the document</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <pre className="max-h-[400px] overflow-auto rounded-lg bg-muted p-4 text-xs leading-relaxed whitespace-pre-wrap">
-                {record.text}
-              </pre>
-            </CardContent>
-          </Card>
+            {/* Extracted Data Card (if present) */}
+            {"extracted" in record && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Extracted Data</CardTitle>
+                  <CardDescription>Information extracted from the document</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <pre className="overflow-auto rounded-lg bg-muted p-4 text-xs leading-relaxed">
+                    {JSON.stringify((record as any).extracted, null, 2)}
+                  </pre>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Document Text Card */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Document Text</CardTitle>
+                <CardDescription>Full text content from the document</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <pre className="max-h-[400px] overflow-auto rounded-lg bg-muted p-4 text-xs leading-relaxed whitespace-pre-wrap">
+                  {record.text}
+                </pre>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Chat Card */}
+          <div className="lg:sticky lg:top-6 lg:self-start">
+            <Chat documentId={record.id} />
+          </div>
         </div>
       </div>
     </main>
